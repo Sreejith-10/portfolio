@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
 	Card,
 	CardContent,
@@ -7,6 +6,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "./card";
+import {TransitionLink} from "./transition-link";
 
 export const About = () => {
 	return (
@@ -29,9 +29,9 @@ export const About = () => {
 					</h2>
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="mt-5">
-				<CardDescription>
-					<p className="prose prose-sm xl:prose-p:text-lg lg:prose-sm dark:text-secondary-foreground/50 line-clamp-[9]">
+			<CardContent className="md:mt-5">
+				<CardDescription className="prose prose-p:text-xs xl:prose-p:text-lg lg:prose-sm dark:text-secondary-foreground/50 line-clamp-[9]">
+					<p className="prose sm:prose-p:text-[1px] xl:prose-p:text-lg lg:prose-sm dark:text-secondary-foreground/50 line-clamp-[9]">
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
 						quisquam consequatur tempora voluptate voluptas iste nobis
 						distinctio, sed, totam cum doloribus placeat aliquid aperiam
@@ -41,11 +41,11 @@ export const About = () => {
 				</CardDescription>
 			</CardContent>
 			<CardFooter className="h-full relative">
-				<Link
-					href={"https://www.google.com"}
+				<TransitionLink
+					href={"/about"}
 					className="prose inline-grid place-content-center whitespace-nowrap text-sm font-medium h-9 px-4 py-2 bg-foreground text-accent rounded-full absolute bottom-0 shadow-md cursor-pointer hover:underline">
-					Resume
-				</Link>
+					About
+				</TransitionLink>
 			</CardFooter>
 		</Card>
 	);

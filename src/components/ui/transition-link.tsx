@@ -1,11 +1,13 @@
 "use client";
 
+import {cn} from "@/lib/utils";
 import Link, {LinkProps} from "next/link";
 import {useRouter} from "next/navigation";
 import {MouseEvent, ReactNode} from "react";
 
 interface TransitionLinkProps extends LinkProps {
 	children: ReactNode;
+	className?: string;
 	href: string;
 }
 
@@ -13,6 +15,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const TransitionLink = ({
 	children,
+	className,
 	href,
 	...props
 }: TransitionLinkProps) => {
@@ -33,7 +36,11 @@ export const TransitionLink = ({
 	};
 
 	return (
-		<Link {...props} href={href} onClick={handleTransition}>
+		<Link
+			className={cn(className)}
+			{...props}
+			href={href}
+			onClick={handleTransition}>
 			{children}
 		</Link>
 	);

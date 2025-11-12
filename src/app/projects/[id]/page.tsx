@@ -1,121 +1,86 @@
-"use client";
-
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion";
+import {Chip} from "@/components/ui/chip";
+import {projects} from "@/constants/projects";
+import {Loader2} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {useParams} from "next/navigation";
 import {IoGlobeOutline, IoLogoGithub} from "react-icons/io5";
 
-const images: Record<string, string[]> = {
-	1: [
-		"/project-images/e-com1.png",
-		"/project-images/e-com2.png",
-		"/project-images/e-com3.png",
-		"/project-images/e-com4.png",
-		"/project-images/e-com5.png",
-		"/project-images/e-com6.png",
-	],
+type PagePropsType<P extends string> = {
+	params: Promise<Record<P, string>>;
 };
 
-const features = [
-	{
-		title: "Real-time Collaboration",
-		description:
-			"Work together with your team in real-time. See changes as they happen and never miss an update.",
-	},
-	{
-		title: "Infinite Canvas",
-		description:
-			"Unlimited space for your ideas. Zoom in for details or out for the big picture.",
-	},
-	{
-		title: "Smart Templates",
-		description:
-			"Start quickly with pre-built templates for any use case, from brainstorming to project planning.",
-	},
-	{
-		title: "Easy Sharing",
-		description:
-			"Share your boards with anyone, anywhere. Control permissions and access levels.",
-	},
-	{
-		title: "Cross-platform",
-		description:
-			"Access your boards from any device. Our apps work seamlessly across desktop, web, and mobile.",
-	},
-	{
-		title: "Enterprise Security",
-		description:
-			"Keep your data safe with enterprise-grade security and compliance features.",
-	},
-];
+export default async function ProjectPage(props: PagePropsType<"id">) {
+	const {id} = await props.params;
+	const project = projects.find((pro) => pro.id === parseInt(id, 10));
 
-const technologies = [
-	"React",
-	"Node",
-	"Tailwind Css",
-	"PostgreSql",
-	"Redis",
-	"Python",
-	"Neovim",
-	"NextJs",
-	"TypeScript",
-];
-
-export default function ProjectPage() {
-	const {id}: {id: string} = useParams();
-	const urls = images[id];
+	if (!project) {
+		return <div>no project found</div>;
+	}
 
 	return (
 		<div className="pt-20">
 			{/* Title */}
-			<section className="prose dark:prose-h1:text-primary/80 dark:prose-p:text-primary/50">
-				<h1>Project Title</h1>
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-					officia consectetur perspiciatis natus accusamus blanditiis laudantium
-					maiores corporis enim reprehenderit delectus quibusdam cum, at cumque
-					exercitationem eum aspernatur magni illo.
-				</p>
-			</section>
-			<br />
-			<br />
-
-			{/* References */}
-			<section className="prose dark:prose-h2:text-primary/80">
-				<h2>Refrences</h2>
-				<div className="inline-flex gap-3">
-					<div className="w-fit h-fit p-1 bg-primary rounded-full">
-						<Link href={"#"}>
-							<IoLogoGithub className="text-secondary size-10" />
-						</Link>
+			<section className="prose max-w-full dark:prose-h1:text-primary/80 dark:prose-p:text-primary/50">
+				<div className="lg:grid lg:grid-cols-2 lg:gap-10">
+					<div>
+						<h1 aria-label="project-title" tabIndex={1}>{project.title}</h1>
+						<p>{project.description}</p>
 					</div>
-					<div className="w-fit h-fit p-1 bg-primary rounded-full">
-						<Link href={"#"}>
-							<IoGlobeOutline className="text-secondary size-10" />
-						</Link>
+					<div className="w-full h-fit hidden lg:block">
+						<Image
+							className="w-full h-auto"
+							src={project.imageRefs[0]}
+							alt="notfound"
+							width={1000}
+							height={1000}
+							loading="lazy"
+						/>
 					</div>
 				</div>
 			</section>
 			<br />
 			<br />
 
+			{/* References */}
+			{project.github || project.liveDemo ? (
+				<>
+					<section className="prose dark:prose-h2:text-primary/80">
+						<h2>Refrences</h2>
+						<div className="inline-flex gap-3">
+							{project.github ? (
+								<div className="w-fit h-fit p-1 bg-primary rounded-full">
+									<Link href={project.github}>
+										<IoLogoGithub className="text-secondary size-10" />
+									</Link>
+								</div>
+							) : null}
+							{project.liveDemo ? (
+								<div className="w-fit h-fit p-1 bg-primary rounded-full">
+									<Link href={project.liveDemo}>
+										<IoGlobeOutline className="text-secondary size-10" />
+									</Link>
+								</div>
+							) : null}
+						</div>
+					</section>
+					<br />
+					<br />
+				</>
+			) : null}
+
 			{/* Techonologies */}
 			<section className="prose dark:prose-h2:text-primary/80">
 				<h2>Technologies</h2>
 
 				<div className="flex flex-wrap gap-3">
-					{technologies.map((tech, index) => (
-						<span
-							key={index}
-							className="text-sm rounded-full px-3 py-2 cursor-pointer bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80 border-2 border-foreground/30 dark:border-primary/10">
-							{tech}
-						</span>
+					{project.technologies.map((tech, index) => (
+						<Chip key={index}>{tech}</Chip>
 					))}
 				</div>
 			</section>
@@ -126,9 +91,9 @@ export default function ProjectPage() {
 			<section className="prose dark:prose-h2:text-primary/80">
 				<h2>Features</h2>
 				<Accordion type="multiple">
-					{features.map((item, index) => (
+					{project.features.map((item, index) => (
 						<AccordionItem
-							value={item.title}
+							value={`item.title:${index}`}
 							key={index}
 							className="prose prose-h4:m-0 prose-p:m-0 prose-h4:text-primary/60 dark:prose-p:text-primary/50 border-b-primary/40">
 							<AccordionTrigger className="hover:no-underline">
@@ -148,14 +113,14 @@ export default function ProjectPage() {
 			<section className="prose dark:prose-h2:text-primary/80 max-w-fit">
 				<h2>Images</h2>
 				<div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-					{urls.map((item, index) => (
-						<div key={item} className="w-full h-auto">
+					{project.imageRefs.map((url, index) => (
+						<div key={url} className="w-full h-auto">
 							<Image
 								width={1000}
-								height={100}
-								alt={`image ${index}`}
-								src={item}
-								className="object-contain"
+								height={1000}
+								alt={`image:${index}`}
+								src={url}
+								className="w-full h-full object-fill"
 								priority
 							/>
 						</div>
