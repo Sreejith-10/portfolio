@@ -256,10 +256,7 @@ export default function Home() {
       const width = window.innerWidth;
       if (width < 768) {
         cols = 2;
-        gap = 8;
-      } else if (width < 1024) {
-        cols = 4;
-        gap = 12;
+        gap = 14;
       }
 
       const containerWidth = containerRef.current.offsetWidth;
@@ -277,7 +274,7 @@ export default function Home() {
         let w = 1,
           h = 1;
 
-        if (item.size === "square-big-box" || item.size === "square-big-box") {
+        if (item.size === "square-big-box") {
           w = 2;
           h = 2;
         } else if (item.size === "horizontal-box") {
@@ -319,6 +316,18 @@ export default function Home() {
         }
       }
 
+      // Calculate total grid width for centering on mobile
+      if (width < 768) {
+        const totalGridWidth = cols * base + (cols - 1) * gap;
+        const containerWidth = containerRef.current.offsetWidth;
+        const offset = (containerWidth - totalGridWidth) / 2;
+
+        // Apply offset to center all items
+        placed.forEach((item) => {
+          item.left += offset;
+        });
+      }
+
       setPositions(placed);
     };
 
@@ -326,13 +335,12 @@ export default function Home() {
     window.addEventListener("resize", computeLayout);
     return () => window.removeEventListener("resize", computeLayout);
   }, []);
-  console.log(positions);
 
   return (
-    <div className="w-full h-auto grid place-items-center">
+    <div className="w-full h-full my-12 flex items-center justify-center">
       <Bento
         ref={containerRef}
-        className="w-[370px] md:w-[800px] lg:w-[1200px] auto relative"
+        className="w-[375px] h-auto md:w-[800px] md:h-[1192px] xl:w-[1200px] xl:h-[1200px] auto relative mx-auto"
       >
         {positions.map((position) => {
           const item = gridItems.find((item) => item.id === position.id);

@@ -194,17 +194,17 @@ body {
     width: 576px;
     height: 576px;
 
-    @media (width < 80rem) {
+    @media (width < 75rem) {
       width: 376px;
       height: 376px;
     }
 
-    @media (width < 64rem) {
+    @media (width < 50rem) {
       width: 344px;
       height: 344px;
     }
 
-    @media (width < 25rem) {
+    @media (width < 23.4375rem) {
       width: 288px;
       height: 288px;
     }
@@ -214,17 +214,17 @@ body {
     width: 280px;
     height: 280px;
 
-    @media (width < 80rem) {
+    @media (width < 75rem) {
       width: 180px;
       height: 180px;
     }
 
-    @media (width < 64rem) {
+    @media (width < 50rem) {
       width: 164px;
       height: 164px;
     }
 
-    @media (width < 25rem) {
+    @media (width < 23.4375rem) {
       width: 136px;
       height: 136px;
     }
@@ -234,17 +234,17 @@ body {
     width: 280px;
     height: 576px;
 
-    @media (width < 80rem) {
+    @media (width < 75rem) {
       width: 180px;
       height: 376px;
     }
 
-    @media (width < 64rem) {
+    @media (width < 50rem) {
       width: 164px;
       height: 344px;
     }
 
-    @media (width < 25rem) {
+    @media (width < 23.4375rem) {
       width: 136px;
       height: 288px;
     }
@@ -254,17 +254,17 @@ body {
     width: 576px;
     height: 280px;
 
-    @media (width < 80rem) {
+    @media (width < 75rem) {
       width: 376px;
       height: 180px;
     }
 
-    @media (width < 64rem) {
+    @media (width < 50rem) {
       width: 343px;
       height: 164px;
     }
 
-    @media (width < 25rem) {
+    @media (width < 23.4375rem) {
       width: 288px;
       height: 136px;
     }
